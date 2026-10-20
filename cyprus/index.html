@@ -557,6 +557,11 @@ html:not(.js) .tour-stage{position:relative}
   background-image:linear-gradient(0deg,rgba(5,5,5,.72) 0%,rgba(5,5,5,.38) 30%,rgba(5,5,5,0) 58%)}
 .bd-in::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--canvas) 0%,rgba(5,5,5,0) 12%,rgba(5,5,5,0) 88%,var(--canvas) 100%)}
 .story-grid{grid-template-columns:minmax(0,300px) minmax(0,1fr)}
+/* "my story" on a screen wider than the clips: each picture's band starts just above Itai's head (clips 9:16, photo 3:4) */
+@media (min-aspect-ratio:9/16){
+  .story video.bd-v{object-position:50% max(calc(100vh - 177.78vw),-57vw)}
+  .story img.bd-v{object-position:50% max(calc(100vh - 133.33vw),-44vw)}
+}
 .story-grid.story-one{grid-template-columns:minmax(0,1fr)}
 .service .bd{--bd:.36}
 .service .j-h,.service .j-quote{text-shadow:0 2px 30px rgba(0,0,0,.7)}
@@ -1001,7 +1006,6 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
       <span class="seg-slab" aria-hidden="true"></span>
       <a href="#top" data-key="cyprus" aria-current="page"><span>Cyprus</span></a>
       <a href="../israel/" data-key="israel" data-go><span>Israel</span></a>
-      <a class="seg-more" href="#consult" data-key="consult"><span>Contact</span></a>
     </nav>
     <div class="lang" dir="ltr"><span class="cur" aria-current="true">EN</span><span class="sep" aria-hidden="true">/</span><a href="../he/cyprus/" hreflang="he" lang="he" data-lang="he">עב<span class="sr-only"> עברית</span></a></div>
     <a class="btn btn-primary btn-sm" href="#consult">Book a consultation</a>
@@ -1147,9 +1151,9 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
          from the paragraph about checking every deal; the footage dims while you read and clears at the end -->
     <div class="bd" aria-hidden="true" data-dim="#cy-story .story-grid">
       <div class="bd-in">
-        <video class="bd-v" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture style="object-position:50% 42%" poster="../assets/itai-talk-poster.jpg" data-src="../assets/itai-talk.mp4"></video>
-        <img class="bd-v" src="../assets/itai.jpg" alt="" loading="lazy" decoding="async" width="1200" height="1600" style="object-position:50% 32%" data-at="#cy-story .story-body p:nth-of-type(1)">
-        <video class="bd-v" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture style="object-position:50% 45%" poster="../assets/itai-plans-poster.jpg" data-src="../assets/itai-plans.mp4" data-at="#cy-story .story-body p:nth-of-type(4)"></video>
+        <video class="bd-v" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture poster="../assets/itai-talk-poster.jpg" data-src="../assets/itai-talk.mp4"></video>
+        <img class="bd-v" src="../assets/itai.jpg" alt="" loading="lazy" decoding="async" width="1200" height="1600" data-at="#cy-story .story-body p:nth-of-type(1)">
+        <video class="bd-v" muted loop playsinline preload="none" tabindex="-1" disablepictureinpicture poster="../assets/itai-plans-poster.jpg" data-src="../assets/itai-plans.mp4" data-at="#cy-story .story-body p:nth-of-type(4)"></video>
       </div>
     </div>
     <div class="wrap story-intro">
@@ -2144,7 +2148,7 @@ const SPOTS = $$('main > section[id]').map(s => s.id);
 const secIO = new IntersectionObserver(es => es.forEach(e => {
   if (!e.isIntersecting) return;
   const id = e.target.id;
-  const rest = id === 'consult' ? 'consult' : PAGE === 'home' ? null : PAGE;
+  const rest = PAGE === 'home' ? null : PAGE;
   if (rest !== segRest) { segRest = rest; if (!seg.matches(':hover')) slabTo(segRest, true); }
 }), { rootMargin: '-40% 0px -55% 0px' });
 SPOTS.forEach(id => secIO.observe(document.getElementById(id)));
