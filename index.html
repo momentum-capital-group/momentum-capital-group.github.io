@@ -639,6 +639,10 @@ html:not(.js) .tour-stage{position:relative}
   .co-home .bg::before{content:none}
   .co-home .bg i{position:sticky;top:0;inset:auto;display:block;height:100vh;height:100svh;margin:0 -6% -100vh;margin-bottom:-100svh}
 }
+@media (max-aspect-ratio:2/3){
+  .consult .bg::before,.co-home .bg-a{background-image:url("assets/villa-black-m.jpg")}
+  .co-home .bg-b{background-image:url("assets/il-ta-dusk-m.jpg")}
+}
 .consult-grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(40px,6vw,96px);align-items:start}
 .contact-list{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:14px}
 .contact-list li{display:flex;gap:16px;align-items:baseline;color:var(--text-2)}
@@ -864,7 +868,7 @@ body.il .static-settle .il-headline{position:relative;top:auto;left:auto;width:a
 /* each part opens on a picture that holds the screen while its words scroll over it (--p: 0 to 1 through the part) */
 .scene{position:relative;--p:0}
 .scene-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#D9D5C8}
-.scene-stage>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.03 + .07 * var(--p)));transform-origin:50% 42%}
+.scene-stage>img,.scene-stage>picture>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(calc(1.03 + .07 * var(--p)));transform-origin:50% 42%}
 .scene-stage::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(8,20,12,.38) 0%,rgba(8,20,12,0) 20%,rgba(8,20,12,0) 52%,rgba(8,20,12,.6) 100%)}
 .scene-title{position:absolute;z-index:3;inset-inline-start:var(--gutter);bottom:clamp(70px,13vh,150px);max-width:min(780px,calc(100% - 2 * var(--gutter)));color:#F7F5EE;text-shadow:0 2px 28px rgba(0,0,0,.42);--kt:clamp(0,(var(--p) - var(--t-out,.6)) * 6,1);opacity:calc(1 - var(--kt));transform:translateY(calc(-36px * var(--kt)))}
 .scene-title .n{display:block;margin-bottom:18px;font:500 .78rem/1 var(--f-mono);letter-spacing:.24em;color:#E1EDC2}
@@ -1086,7 +1090,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 
   <!-- the vision: straight on from the film, out of the dark -->
   <section class="journey vision" id="vision" aria-labelledby="vi-h" data-unit="60" data-progress=".hm-bg">
-    <div class="hm-bg" aria-hidden="true" style="--img:url('assets/hm-vision.jpg');--img-m:url('assets/hm-vision-m.jpg')"></div>
+    <div class="hm-bg" aria-hidden="true" style="--img:url('assets/hm-towers.jpg');--img-m:url('assets/hm-towers-m.jpg')"></div>
     <div class="j-stage">
       <div class="j-world">
         <div class="j-item" data-stop data-hold="1.8" data-p="0,0,0">
@@ -1114,7 +1118,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 
   <!-- how an opportunity reaches our investors: a staircase in depth, one step at a time -->
   <section class="journey process" id="process" aria-labelledby="pr-h" data-progress=".hm-bg" data-unit="52" data-fog="5600" data-cam0="0.44,0.16,-1150" data-lead="0.7" data-cy="-0.05">
-    <div class="hm-bg" aria-hidden="true" style="--img:url('assets/hm-process.jpg');--img-m:url('assets/hm-process-m.jpg')"></div>
+    <div class="hm-bg" aria-hidden="true" style="--img:url('assets/hm-night.jpg');--img-m:url('assets/hm-night-m.jpg')"></div>
     <div class="j-stage">
       <div class="j-head">
         <h2 class="h2" id="pr-h">How an opportunity reaches our investors.</h2>
@@ -1131,7 +1135,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   </section>
 
   <section class="sec hm-photo" id="markets" aria-labelledby="mk-h" data-reveal data-progress=".hm-bg">
-    <div class="hm-bg" aria-hidden="true" style="--img:url('assets/hm-villa.jpg');--img-m:url('assets/hm-villa-m.jpg')"></div>
+    <div class="hm-bg" aria-hidden="true" style="--img:url('assets/hm-pool.jpg');--img-m:url('assets/hm-pool-m.jpg')"></div>
     <div class="wrap">
       <span class="kicker rv">Two markets</span>
       <h2 class="h2 rv" style="--d:1" id="mk-h">One sea. Two markets. One team.</h2>
@@ -2277,6 +2281,8 @@ if (tour) {
     blocks.forEach(b => { const r = b.el.getBoundingClientRect(); d = Math.max(d, b.w * Math.max(0, Math.min(r.bottom, b1) - Math.max(r.top, b0)) / (b1 - b0)); });
     if (Math.abs(d - tDim) > 0.01) { tDim = d; stage.style.setProperty('--td', d.toFixed(3)); }
   }
+  /* a phone-shaped screen plays the fire's upright cut */
+  if (loop.dataset.srcM && matchMedia('(max-aspect-ratio: 2/3)').matches) { loop.dataset.src = loop.dataset.srcM; if (loop.dataset.posterM) loop.poster = loop.dataset.posterM; }
   const playLoop = () => { if (reduced || !loop.dataset.src) return; if (!loop.getAttribute('src')) loop.src = loop.dataset.src; const pr = loop.play(); if (pr && pr.catch) pr.catch(() => {}); };
   function tSeek(t) {
     if (!film.duration) return;
