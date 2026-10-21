@@ -51,6 +51,7 @@
 @property --zs{syntax:'<number>';inherits:true;initial-value:1}
 @property --zx{syntax:'<percentage>';inherits:true;initial-value:50%}
 @property --zy{syntax:'<percentage>';inherits:true;initial-value:50%}
+@property --hk{syntax:'<number>';inherits:false;initial-value:0}
 :root{
   /* black, a little champagne gold, and concrete grey. --space stays the film's own edge colour, so the hero has no seam */
   --canvas:#050505; --space:#040B1A; --panel:#0F0F10; --panel-2:#161617;
@@ -766,13 +767,13 @@ body.il .hero .cue{color:#45564A}
   opacity:calc((.2 + .8 * var(--kr)) * (1 - clamp(0,(var(--kz) - .62) / .38,1)))}
 .il-mark .m3d{--s:inherit}
 .il-mark .m3d-rot{transform:rotateY(calc((1 - var(--kt)) * -24deg)) rotateZ(calc(var(--kt) * 360deg))}
-.il-headline{position:absolute;z-index:1;left:50%;top:50%;width:min(1040px,calc(100% - 2 * var(--gutter)));text-align:center;--kh:clamp(0,var(--k,0) * 4,1);opacity:var(--kh);transform:translate(-50%,calc(-50% + (1 - var(--kh)) * 34px))}
+.il-headline{position:absolute;z-index:1;left:50%;top:50%;width:min(1040px,calc(100% - 2 * var(--gutter)));text-align:center;opacity:clamp(0,var(--hk) * 4,1);transform:translate(-50%,calc(-50% + (1 - clamp(0,var(--hk) * 4,1)) * 34px))}
 .il-headline::before{content:"";position:absolute;inset:-16% -12%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(246,243,235,.8),rgba(246,243,235,.5) 60%,rgba(246,243,235,0))}
 .static-settle .il-headline::before{display:none}
-/* the main line writes itself as you arrive, letter by letter with the scroll, each letter landing in green first */
-.il-headline{--kw:calc(var(--k,0) * 1.06)}
-.wc{display:inline-block;--wq:clamp(0,(var(--kw) - var(--c,0)) * 22,1);opacity:var(--wq);transform:translateY(calc((1 - var(--wq)) * .32em))}
-@supports (color:color-mix(in srgb,red 50%,blue)){.wc{color:color-mix(in srgb,#4E9A6B calc((1 - var(--wq)) * 100%),currentColor)}}
+/* the main line writes itself as you arrive, letter by letter with the scroll, each letter landing in green first
+   (--hk: the line's progress, kept from its letters; --wq: a letter's own state, set only while it changes) */
+.wc{display:inline-block;opacity:var(--wq,0);transform:translateY(calc((1 - var(--wq,0)) * .32em))}
+@supports (color:color-mix(in srgb,red 50%,blue)){.wc{color:color-mix(in srgb,#4E9A6B calc((1 - var(--wq,0)) * 100%),currentColor)}}
 @media (prefers-reduced-motion: reduce){.wc{opacity:1;transform:none}}
 .il-ht{margin:0;font:500 clamp(2rem,3.7vw,3.6rem)/1.22 var(--f-display);letter-spacing:-.01em;color:#16261B;text-wrap:pretty}
 .il-ht b{font-weight:600;color:#2F6B45}
@@ -802,7 +803,7 @@ body.il .static-settle .il-headline{position:relative;top:auto;left:auto;width:a
 /* the market as a live board: the panel holds the screen and everything on it moves with the scroll. Each fact's words
    light up through its stretch, its tile wakes, its figure counts and its chart draws
    (--p: 0 to 1 through the section, --t: 0 to 1 through a pane's stretch, --lt: 0 to 1 as a tile wakes) */
-.dash{position:relative;height:var(--dash-h,560vh)}
+.dash{position:relative;height:var(--dash-h,405vh)}
 .dash-bg{position:sticky;top:0;height:100vh;height:100svh;margin-bottom:-100vh;margin-bottom:-100svh;overflow:hidden;pointer-events:none}
 .dash-bg::before{content:"";position:absolute;inset:-4%;background:url("../../assets/il-dash-bg.jpg") 50% 50%/cover no-repeat;opacity:.9;transform:scale(calc(1.02 + .08 * var(--p,0)))}
 .dash-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#F3F0E7 0%,rgba(243,240,231,.56) 16%,rgba(243,240,231,.42) 50%,rgba(243,240,231,.56) 84%,#F3F0E7 100%)}
@@ -894,6 +895,9 @@ body.il .static-settle .il-headline{position:relative;top:auto;left:auto;width:a
 .scene-stage .b-b{opacity:clamp(0,(var(--p) - .58) * 10,1)}
 .scene-stage .b-c{opacity:clamp(0,(var(--p) - .8) * 7,1)}
 .film-on .b-b,.film-on .b-c{display:none}
+/* once the film has faded in over it, the site picture beneath it is no longer drawn */
+.film-on .b-a{visibility:hidden;transition:visibility 0s linear .6s}
+.plan-wait .b-plan{display:none}
 .b-plan{position:absolute;inset:0;z-index:1;width:100%;height:100%;pointer-events:none;transform:scale(calc(1.03 + .07 * var(--p)));transform-origin:50% 42%;opacity:calc(1 - clamp(0,(var(--p) - .64) * 6,1));filter:drop-shadow(0 0 2px rgba(4,30,16,.75))}
 .b-plan path{fill:none;stroke:#fff;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:calc(1 - var(--dr,0))}
 .b-plan .lot{--dr:clamp(0,(var(--p) - .31) * 7,1);stroke-width:2}
@@ -1046,7 +1050,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 
 
   <!-- ============ Israel: a drone circles the tower project, the Momentum mark rises between the towers, then the two tracks ============ -->
-  <section class="hero il-day" id="top" style="--hero-h:520vh" aria-label="ישראל">
+  <section class="hero il-day" id="top" style="--hero-h:380vh" aria-label="ישראל">
     <div class="stage" id="stage" data-static="cover" style="--static-img:url('../../assets/il-static-ta.jpg')">
       <div class="media" aria-hidden="true">
         <div class="zoom">
@@ -1121,9 +1125,9 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
   </section>
 
   <!-- ============ part 2, commercial real estate: the empty site, a commercial floor drawn on the plans, the cranes build the complex, then its shops and plaza open as you scroll ============ -->
-  <section class="scene il-day" id="il-land" aria-labelledby="ill-h" style="--scene-h:760vh">
+  <section class="scene il-day" id="il-land" aria-labelledby="ill-h" style="--scene-h:540vh">
     <div class="scene-stage" style="--t-out:.02">
-      <picture><source media="(max-aspect-ratio: 2/3)" srcset="../../assets/il-cx-a-m.jpg" width="720" height="1280"><img src="../../assets/il-cx-a.jpg" alt="אתר בנייה ריק עם שני מנופים, בין רחובות העיר" loading="lazy" decoding="async" width="1920" height="1086"></picture>
+      <picture><source media="(max-aspect-ratio: 2/3)" srcset="../../assets/il-cx-a-m.jpg" width="720" height="1280"><img class="b-a" src="../../assets/il-cx-a.jpg" alt="אתר בנייה ריק עם שני מנופים, בין רחובות העיר" loading="lazy" decoding="async" width="1920" height="1086"></picture>
       <picture><source media="(max-aspect-ratio: 2/3)" srcset="../../assets/il-cx-b-m.jpg" width="720" height="1280"><img class="b-b" src="../../assets/il-cx-b.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1086"></picture>
       <video class="b-film" muted playsinline preload="none" tabindex="-1" aria-hidden="true" disablepictureinpicture data-src="../../assets/il-cx.mp4" data-src-m="../../assets/il-cx-m.mp4" data-dur="5.0417" data-tmap="[[0,0],[0.5,0],[0.9,1],[1,1]]"></video>
       <picture><source media="(max-aspect-ratio: 2/3)" srcset="../../assets/il-cx-c-m.jpg" width="720" height="1280"><img class="b-c" src="../../assets/il-cx-c.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1920" height="1086"></picture>
@@ -1178,14 +1182,14 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
       </ol>
     </div>
     <div class="scene-run">
-      <div class="scene-card" style="--y:210vh;--ym:320vh">
+      <div class="scene-card" style="--y:173vh;--ym:232vh">
         <h2 class="h2" id="ill-h"><span>הכנסה יציבה.</span> <span>שקט לטווח ארוך.</span></h2>
         <p class="lede">בשנים האחרונות התשואה מדירות להשקעה בישראל נשחקה, והנדל״ן המסחרי הפך לאחד האפיקים המניבים בשוק. ב־Momentum אנחנו מלווים משקיעים פרטיים וקבוצות רוכשים ברכישת חנויות, משרדים ושטחי מסחר בפרויקטים חדשים, נכסים שנבחרים לפי ביקוש אמיתי ולא לפי הבטחות.</p>
       </div>
-      <div class="scene-card" style="--y:430vh">
+      <div class="scene-card" style="--y:320vh">
         <p class="lede">לפני שנכס מגיע אליכם, אנחנו בודקים אותו כמו משקיע מוסדי: מיקום, חזית ונגישות, ייעוד ושימושים מותרים, ביקוש לשוכרים באזור ושכירות ריאלית. אנחנו מחשבים תשואה נטו אחרי מס רכישה, עלויות ותקופות ריקות, ובודקים איך העסקה נראית עם מימון ובלעדיו.</p>
       </div>
-      <div class="scene-card" style="--y:600vh">
+      <div class="scene-card" style="--y:433vh">
         <p class="lede">שוכר עסקי חותם לשנים, משקיע בהתאמת הנכס ונושא בדרך כלל בארנונה ובתחזוקה. התוצאה: הכנסה שוטפת מנכס שלא דורש ניהול יומיומי. ובזכות כוח הקנייה של הקבוצה, ניתן להיכנס לנכסים איכותיים יותר בתנאים טובים יותר.</p>
       </div>
     </div>
@@ -1342,6 +1346,15 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const smooth = (p, e0, e1) => { const t = clamp((p - e0) / (e1 - e0)); return t * t * (3 - 2 * t); };
 const easeOut = t => 1 - Math.pow(1 - t, 3);
+/* where an element sits on the page, measured once and again only after the page changes size, so a scroll frame
+   never has to stop and lay the page out to answer it */
+const GEO = new Map();
+const geo = el => { let g = GEO.get(el); if (!g) { const r = el.getBoundingClientRect(); g = { top: r.top + scrollY, h: r.height }; GEO.set(el, g); } return g; };
+const geoTop = el => geo(el).top - scrollY, geoBottom = el => { const g = geo(el); return g.top + g.h - scrollY; };
+const geoReset = () => GEO.clear();
+if ('ResizeObserver' in window) new ResizeObserver(geoReset).observe(document.body);
+addEventListener('resize', geoReset);
+addEventListener('load', geoReset);
 const easeBack = t => { const c = 1.5; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 function rng(seed) { let s = seed >>> 0; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; }
 const setVar = (el, name, val, cache, key, eps = 0.004) => {
@@ -1462,8 +1475,14 @@ $$('.hero .il-headline').forEach(box => {
       t.replaceWith(frag);
     });
   });
-  letters.forEach((c, i) => c.style.setProperty('--c', (i / letters.length).toFixed(4)));
+  box._w = letters.map((el, i) => ({ el, c: i / letters.length, q: -1 }));
 });
+/* the line at progress k: the line itself moves in, and only the letters the writing is passing through change */
+function writeLine(box, k) {
+  box.style.setProperty('--hk', k.toFixed(4));
+  const kw = k * 1.06;
+  box._w.forEach(w => { const q = reduced ? 1 : clamp((kw - w.c) * 22); if (q !== w.q && (Math.abs(q - w.q) > 0.01 || q === 0 || q === 1)) { w.q = q; w.el.style.setProperty('--wq', q.toFixed(3)); } });
+}
 
 /* ---------- the hero film ---------- */
 const hero = $('.hero'), stage = $('#stage'), video = $('#heroVideo'), poster = $('.poster'), posterEnd = $('.poster-end');
@@ -1482,7 +1501,7 @@ const GATES = window.__heroGate.G;
 const MQLS = GATES.map(q => matchMedia(q));
 const bands = $$('.band').map((el, i, arr) => ({
   el, a: +el.dataset.a, b: +el.dataset.b, ramp: +el.dataset.ramp || 0,
-  first: i === 0, last: i === arr.length - 1 && +el.dataset.b >= 1, c: {}
+  first: i === 0, last: i === arr.length - 1 && +el.dataset.b >= 1, c: {}, line: $('.il-headline', el)
 }));
 const timeFrac = p => lerpTable(F.tmap, p);
 const filmTime = p => timeFrac(p) * Math.max(0, (video.duration || F.seconds) - 0.05);
@@ -1652,7 +1671,8 @@ function update(p, now = performance.now()) {
     let k = clamp((p - b.a) / (b.ramp || Math.min(0.025, (b.b - b.a) * 0.35)));
     if (b.first) k = Math.max(k, loadK);
     if (Math.abs((b.c.op ?? -1) - op) > 0.004) { b.c.op = op; b.el.style.opacity = op.toFixed(3); const on = op > 0.5; if (on !== b.c.on) { b.c.on = on; b.el.classList.toggle('on', on); } }
-    setVar(b.el, '--k', k, b.c, 'k', 0.008);
+    if (b.line && b.line._w) { if (Math.abs((b.c.k ?? -1) - k) > 0.003) { b.c.k = k; writeLine(b.line, k); } }
+    else setVar(b.el, '--k', k, b.c, 'k', 0.008);
   });
 }
 function onScroll() {
@@ -2346,9 +2366,9 @@ if (tour) {
   /* the scroll, as a second of film: straight lines between the chapter marks */
   function tFilm() {
     const vh = innerHeight, y = scrollY;
-    tTop = tour.getBoundingClientRect().top + y;
+    tTop = geo(tour).top;
     const keys = [[tTop, 0]];
-    marks.forEach(m => { const s = m.el.getBoundingClientRect().top + y - vh * 0.6; if (s > keys[keys.length - 1][0]) keys.push([s, m.t]); });
+    marks.forEach(m => { const s = geo(m.el).top - vh * 0.6; if (s > keys[keys.length - 1][0]) keys.push([s, m.t]); });
     return lerpTable(keys, clamp(y, keys[0][0], keys[keys.length - 1][0]));
   }
   /* how much of the middle half of the screen the words cover */
@@ -2427,7 +2447,7 @@ $$('.bd').forEach(bd => {
   function frame() {
     raf = 0; if (!on) return;
     const vh = innerHeight;
-    let k = 0; marks.forEach((m, i) => { if (m && m.getBoundingClientRect().top < vh * 0.6) k = i; });
+    let k = 0; marks.forEach((m, i) => { if (m && geoTop(m) < vh * 0.6) k = i; });
     if (k !== cur) {
       cur = k;
       vids.forEach((v, i) => {
@@ -2436,8 +2456,8 @@ $$('.bd').forEach(bd => {
       });
     }
     if (dimEl) {
-      const r = dimEl.getBoundingClientRect();
-      const d = Math.min(smooth(vh * 0.9 - r.top, 0, vh * 0.45), 1 - smooth(vh * 0.55 - r.bottom, 0, vh * 0.4));
+      const t = geoTop(dimEl), b = geoBottom(dimEl);
+      const d = Math.min(smooth(vh * 0.9 - t, 0, vh * 0.45), 1 - smooth(vh * 0.55 - b, 0, vh * 0.4));
       if (Math.abs(d - dim) > 0.004) { dim = d; bd.style.setProperty('--bd', d.toFixed(3)); }
     }
   }
@@ -2509,10 +2529,11 @@ $$('.scene').forEach(sc => {
   let on = false, raf = 0, last = -1;
   function frame() {
     raf = 0; if (!on) return;
-    const r = sc.getBoundingClientRect(), p = clamp(-r.top / Math.max(1, r.height - innerHeight), 0, 1);
+    const g = geo(sc), p = clamp((scrollY - g.top) / Math.max(1, g.h - innerHeight), 0, 1);
     if (Math.abs(p - last) < 0.0005) return; last = p;
     sceneStage.style.setProperty('--p', p.toFixed(4));
-    const so = p > 0.38, po = p > 0.82;
+    const so = p > 0.38, po = p > 0.82, pw = p < 0.3;
+    if (pw !== sc._pw) { sc._pw = pw; sc.classList.toggle('plan-wait', pw); }
     if (so !== sc._so) { sc._so = so; sc.classList.toggle('sheet-off', so); }
     if (po !== sc._po) { sc._po = po; sc.classList.toggle('plan-off', po); }
     if (filmTo) filmTo(p);
@@ -2552,10 +2573,10 @@ $$('.dash').forEach(sec => {
     let lts;
     if (small.matches) {
       /* a phone reads the board as a page: each pane and tile wakes as it rises into view */
-      panes.forEach(pane => set(pane, '--t', reduced ? 1 : clamp((vh * 0.95 - pane.getBoundingClientRect().top) / (vh * 0.55))));
-      lts = tiles.map(t => set(t, '--lt', reduced ? 1 : clamp((vh * 0.92 - t.getBoundingClientRect().top) / (vh * 0.4))));
+      panes.forEach(pane => set(pane, '--t', reduced ? 1 : clamp((vh * 0.95 - geoTop(pane)) / (vh * 0.55))));
+      lts = tiles.map(t => set(t, '--lt', reduced ? 1 : clamp((vh * 0.92 - geoTop(t)) / (vh * 0.4))));
     } else {
-      const r = sec.getBoundingClientRect(), p = clamp(-r.top / Math.max(1, r.height - vh));
+      const g = geo(sec), p = clamp((scrollY - g.top) / Math.max(1, g.h - vh));
       set(sec, '--p', p);
       panes.forEach((pane, i) => set(pane, '--t', clamp((p - at[i]) / (at[i + 1] - at[i]))));
       lts = tiles.map(t => { const k = +t.dataset.k; t.classList.toggle('now', p >= at[k] && p < at[k + 1]); return set(t, '--lt', reduced ? 1 : clamp((p - +t.dataset.s0) / 0.1)); });
@@ -2576,8 +2597,8 @@ if (ilSwitch) {
   function frame() {
     raf = 0;
     const mid = innerHeight * 0.5;
-    ilSwitch.classList.toggle('on', parts[0].getBoundingClientRect().top < mid && endEl.getBoundingClientRect().bottom > mid);
-    let k = 0; parts.forEach((el, i) => { if (el.getBoundingClientRect().top < mid) k = i; });
+    ilSwitch.classList.toggle('on', geoTop(parts[0]) < mid && geoBottom(endEl) > mid);
+    let k = 0; parts.forEach((el, i) => { if (geoTop(el) < mid) k = i; });
     links.forEach((a, i) => { a.classList.toggle('on', i === k); if (i === k) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
   }
   const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
@@ -2593,7 +2614,7 @@ $$('[data-progress]').forEach(el => {
   const tg = el.dataset.progress ? $$(el.dataset.progress, el) : [el];
   let raf = 0, on = false, last = '';
   const frame = () => {
-    raf = 0; const r = el.getBoundingClientRect(), vh = innerHeight, pr = clamp((vh - r.top) / (vh + r.height)).toFixed(4), top = (r.top / vh).toFixed(4);
+    raf = 0; const t = geoTop(el), vh = innerHeight, pr = clamp((vh - t) / (vh + geo(el).h)).toFixed(4), top = (t / vh).toFixed(4);
     if (pr + top === last) return; last = pr + top;
     tg.forEach(t => { t.style.setProperty('--pr', pr); t.style.setProperty('--top', top); });
   };
