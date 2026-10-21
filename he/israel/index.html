@@ -1179,7 +1179,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
     </div>
     <div class="scene-run">
       <div class="scene-card" style="--y:210vh;--ym:320vh">
-        <h2 class="h2" id="ill-h"><span>הנכס של היום.</span> <span>ההכנסה של כל חודש.</span></h2>
+        <h2 class="h2" id="ill-h"><span>הכנסה יציבה.</span> <span>שקט לטווח ארוך.</span></h2>
         <p class="lede">בשנים האחרונות התשואה מדירות להשקעה בישראל נשחקה, והנדל״ן המסחרי הפך לאחד האפיקים המניבים בשוק. ב־Momentum אנחנו מלווים משקיעים פרטיים וקבוצות רוכשים ברכישת חנויות, משרדים ושטחי מסחר בפרויקטים חדשים, נכסים שנבחרים לפי ביקוש אמיתי ולא לפי הבטחות.</p>
       </div>
       <div class="scene-card" style="--y:430vh">
@@ -1267,11 +1267,11 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
           <div class="field"><label for="f-email">אימייל</label><input id="f-email" name="email" type="email" dir="ltr" placeholder="you@example.com" autocomplete="email" required></div>
           <div class="field full"><label for="f-phone">טלפון או וואטסאפ</label><input id="f-phone" name="phone" type="tel" dir="ltr" placeholder="+972 ..." autocomplete="tel"></div>
           <div class="field"><label for="f-int">מה מעניין אתכם</label><select id="f-int" name="interest">
-            <optgroup label="קפריסין"><option value="cy-seafront">וילה על הים</option><option value="cy-hillside">וילה על הגבעה</option><option value="cy-residency">בית לתושבות</option></optgroup>
-            <optgroup label="ישראל"><option value="il-new">פרויקט חדש</option><option value="il-early">פרויקט בשלב מוקדם</option><option value="il-shop">חנות או שטח מסחר</option><option value="il-office">משרד</option></optgroup>
-            <option value="both">שני השווקים</option><option value="unsure" selected>עוד לא החלטתי</option>
+            <optgroup label="ישראל"><option value="il-invest">נדל״ן מסחרי להשקעה</option><option value="il-own">נדל״ן מסחרי לשימוש אישי</option><option value="il-group">הצטרפות לקבוצת רוכשים</option></optgroup>
+            <optgroup label="קפריסין"><option value="cy-invest">נכס להשקעה</option><option value="cy-residency">נכס לתושבות</option><option value="cy-relocation">נכס לרילוקיישן</option></optgroup>
+            <optgroup label="כללי"><option value="both">ישראל וקפריסין</option><option value="unsure" selected>עוד לא החלטתי</option></optgroup>
           </select></div>
-          <div class="field"><label for="f-bud">תקציב</label><select id="f-bud" name="budget"><option>עד 1.5 מיליון ₪</option><option selected>1.5 עד 3 מיליון ₪</option><option>3 עד 5 מיליון ₪</option><option>מעל 5 מיליון ₪</option></select></div>
+          <div class="field"><label for="f-bud">הון עצמי להשקעה</label><select id="f-bud" name="budget"><option>עד 500 אלף ₪</option><option>500 אלף עד 1 מיליון ₪</option><option>1 עד 2 מיליון ₪</option><option>2 עד 5 מיליון ₪</option><option>מעל 5 מיליון ₪</option></select></div>
           <div class="field full"><label for="f-msg">משהו נוסף?</label><textarea id="f-msg" name="message" placeholder="אזורים, לוחות זמנים, שאלות"></textarea></div>
         </div>
         <button class="btn btn-primary" type="submit">שליחת בקשה לפגישה <span class="arrow" aria-hidden="true">&larr;</span></button>
@@ -1319,7 +1319,7 @@ const T = {
   needEmail: 'נא להוסיף אימייל תקין.',
   subject: 'בקשה לפגישת ייעוץ: ',
   name: 'שם', email: 'אימייל', phone: 'טלפון או וואטסאפ',
-  interest: 'תחום עניין', budget: 'תקציב'
+  interest: 'תחום עניין', budget: 'הון עצמי להשקעה'
 };
 /* ---------- this page's film ---------- */
 
