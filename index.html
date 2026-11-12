@@ -203,7 +203,7 @@ h2[tabindex="-1"]:focus{outline:none}
 .film-pins{pointer-events:none;opacity:var(--fp,0);visibility:hidden;z-index:3}
 .film-pins.on{visibility:visible}
 .film-pins .pin{left:calc(var(--zx) + (var(--x,50%) - var(--zx)) * var(--zs));top:calc(var(--zy) + (var(--y,50%) - var(--zy)) * var(--zs))}
-.film-pins.live .pin{pointer-events:none}
+.film-pins.live .pin{pointer-events:auto}
 .stage.look .film-pins .pin:not(.looking){opacity:.3}
 .film-pins .pin{transition:opacity .7s var(--ease-out)}
 .scrim{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 120% 90% at 50% 45%,rgba(0,0,0,0) 38%,rgba(0,0,0,.55) 100%);opacity:var(--so,1)}
@@ -345,8 +345,8 @@ html:not(.is-static) .static-only{display:none}
 .door{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;min-height:clamp(300px,42vh,440px);padding:clamp(28px,3.4vw,46px);border-radius:24px;border:1px solid var(--line);color:var(--text);text-decoration:none;background:#0A0A0B;transition:border-color .8s var(--ease-out)}
 .door .ph{position:absolute;inset:0;z-index:-2;background:var(--img) center/cover no-repeat;opacity:.92;transform:scale(1.04);transition:transform 1.6s var(--ease-out),opacity 1.2s var(--ease-out)}
 .door::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(5,5,5,0) 0%,rgba(5,5,5,.12) 38%,rgba(5,5,5,.58) 68%,rgba(5,5,5,.9) 100%)}
-a.door:hover{border-color:rgba(216,216,222,.32)}
-a.door:hover .ph{transform:scale(1.08);opacity:1}
+.door:hover{border-color:rgba(216,216,222,.32)}
+.door:hover .ph{transform:scale(1.08);opacity:1}
 .door .part{font:500 .7rem/1 var(--f-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
 .door h3{margin:14px 0 0;font:500 clamp(2.6rem,5vw,4.6rem)/1 var(--f-display);letter-spacing:-.02em}
 .door p{margin:14px 0 0;color:var(--text-2);max-width:38ch}
@@ -1035,8 +1035,10 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
     <svg class="brand-word" viewBox="0 0 1081 100" aria-hidden="true" focusable="false"><use href="#wmtop"/></svg>
   </a>
   <div class="nav-cta">
-    <nav class="seg" id="seg" aria-label="Main" hidden style="display:none">
+    <nav class="seg" id="seg" aria-label="Main">
       <span class="seg-slab" aria-hidden="true"></span>
+      <a href="cyprus/" data-key="cyprus" data-go><span>Cyprus</span></a>
+      <a href="israel/" data-key="israel" data-go><span>Israel</span></a>
     </nav>
     <div class="lang" dir="ltr"><span class="cur" aria-current="true">EN</span><span class="sep" aria-hidden="true">/</span><a href="he/" hreflang="he" lang="he" data-lang="he">עב<span class="sr-only"> עברית</span></a></div>
     <a class="btn btn-primary btn-sm" href="#consult">Book a consultation</a>
@@ -1058,8 +1060,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
         </div>
       </div>
       <div class="film-pins" id="filmPins">
-        <span class="pin pin-cy"><span class="dot"></span><span class="pl"><b>Cyprus</b></span></span>
-        <span class="pin pin-il"><span class="dot"></span><span class="pl"><b>Israel</b></span></span>
+        <a class="pin pin-cy" href="cyprus/" data-go data-zoom tabindex="-1"><span class="dot"></span><span class="pl"><b>Cyprus</b><i class="go">Enter Cyprus &rarr;</i></span></a>
+        <a class="pin pin-il" href="israel/" data-go data-zoom tabindex="-1"><span class="dot"></span><span class="pl"><b>Israel</b><i class="go">Enter Israel &rarr;</i></span></a>
       </div>
       <div class="scrim" aria-hidden="true"></div>
       <div class="topscrim" aria-hidden="true"></div>
@@ -1093,6 +1095,13 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
         <div class="cap cap-top" style="--sa:.92">
           <h2 class="cap-h md split fx-lights" data-seed="29">This is where quality real estate investment begins.</h2>
           <p class="cap-sub">In Israel and in Cyprus, with close guidance all the way.</p>
+        </div>
+      </div>
+      <div class="band chooser" data-a="0.8" data-b="1" data-ramp="0.06">
+        <div class="cap cap-top" style="--sa:.9">
+          <span class="cap-kick">Two markets. One team.</span>
+          <h2 class="cap-h">Choose your market.</h2>
+          <p class="cap-sub"><span class="hint-mouse">Point at a country to look closer. Click to go in.</span><span class="hint-touch">Tap a country to go in.</span></p>
         </div>
       </div>
 
@@ -1172,23 +1181,25 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
         <div class="map-in">
           <img src="assets/map-end.jpg" alt="The Eastern Mediterranean from orbit at night: Cyprus in the middle of the sea, and the lit coast of Israel to the southeast" loading="lazy" decoding="async" width="1600" height="900">
           <svg viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M785 380 Q742 610 934 745"/></svg>
-          <span class="pin pin-cy" style="--x:49.06%;--y:42.22%"><span class="dot"></span><span class="pl"><b>Cyprus</b></span></span>
-          <span class="pin pin-il" style="--x:58.38%;--y:82.78%"><span class="dot"></span><span class="pl"><b>Israel</b></span></span>
+          <a class="pin pin-cy" href="cyprus/" data-go style="--x:49.06%;--y:42.22%"><span class="dot"></span><span class="pl"><b>Cyprus</b></span></a>
+          <a class="pin pin-il" href="israel/" data-go style="--x:58.38%;--y:82.78%"><span class="dot"></span><span class="pl"><b>Israel</b></span></a>
         </div>
       </div>
       <div class="duo">
-        <div class="door rv" style="--d:3;--img:url('assets/villa-black.jpg')">
+        <a class="door rv" style="--d:3;--img:url('assets/villa-black.jpg')" href="cyprus/" data-go>
           <span class="ph" aria-hidden="true"></span>
           <span class="part">Villas, homes, residency</span>
           <h3>Cyprus</h3>
           <p>Villas by the sea, and new homes that can bring residency in the EU.</p>
-        </div>
-        <div class="door rv" style="--d:4;--img:url('assets/il-door-home.jpg')">
+          <span class="ask">Enter Cyprus <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a class="door rv" style="--d:4;--img:url('assets/il-door-home.jpg')" href="israel/" data-go>
           <span class="ph" aria-hidden="true"></span>
           <span class="part">New projects, commercial real estate</span>
           <h3>Israel</h3>
           <p>New projects from developers, and income-producing commercial real estate, across the country.</p>
-        </div>
+          <span class="ask">Enter Israel <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
       </div>
     </div>
   </section>
@@ -1243,7 +1254,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
       </div>
       <div>
         <h4>Explore</h4>
-        <ul><li><a href="#process">How it works</a></li><li><a href="#top">Home</a></li></ul>
+        <ul><li><a href="cyprus/" data-go>Cyprus</a></li><li><a href="israel/" data-go>Israel</a></li><li><a href="#process">How it works</a></li><li><a href="#top">Home</a></li></ul>
       </div>
       <div>
         <h4>Contact</h4>
@@ -1469,7 +1480,7 @@ function placeFilmPins(p) {
   setAll([filmPins, filmArc], '--fp', o, 'fp', 0.004);
   const on = o > 0.002; if (on !== mc.fpOn) { mc.fpOn = on; filmPins.classList.toggle('on', on); }
   const live = scrubOn && p >= F.chooser;
-  if (live !== choosing) { choosing = live; filmPins.classList.toggle('live', live); if (!live) look(null); }
+  if (live !== choosing) { choosing = live; filmPins.classList.toggle('live', live); $$('.pin', filmPins).forEach(a => a.tabIndex = live ? 0 : -1); if (!live) look(null); }
   if (!on) return;
   /* at the end the camera rests on the key frame itself */
   const sec = p >= F.tmap[F.tmap.length - 2][0] ? 5.06 : filmTime(p);
@@ -2282,7 +2293,7 @@ addEventListener('pageshow', e => { if (e.persisted) { veil.classList.remove('on
 /* ---------- the press: gold light spreads from the finger, and a ring of light leaves the button ---------- */
 document.addEventListener('pointerdown', e => {
   if (reduced || e.button > 0) return;
-  const el = e.target.closest('.btn:not(.hold), a.door');
+  const el = e.target.closest('.btn:not(.hold), .door');
   if (!el) return;
   const r = el.getBoundingClientRect(), d = Math.hypot(r.width, r.height) * 2;
   const s = document.createElement('span'); s.className = 'ripple';
