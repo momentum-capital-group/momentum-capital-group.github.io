@@ -2,8 +2,6 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
-<!-- PREVIEW: keeps the demo out of search engines; remove this line when the real site goes live -->
-<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Israel | New projects and commercial real estate | Momentum Capital Group</title>
 <meta name="description" content="New projects from developers and income-producing commercial real estate across Israel. Checked before you commit, followed through to your name on the title.">
@@ -1275,7 +1273,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
             <optgroup label="Cyprus"><option value="cy-invest">A property to invest in</option><option value="cy-residency">A property for residency</option><option value="cy-relocation">A property to relocate to</option></optgroup>
             <optgroup label="General"><option value="both">Israel and Cyprus</option><option value="unsure" selected>Not sure yet</option></optgroup>
           </select></div>
-          <div class="field"><label for="f-bud">Equity to invest</label><select id="f-bud" name="budget"><option>Up to ₪500,000</option><option>₪500,000 to ₪1 million</option><option>₪1 to 2 million</option><option>₪2 to 5 million</option><option>Over ₪5 million</option></select></div>
+          <div class="field"><label for="f-bud">Equity to invest</label><select id="f-bud" name="budget"><option>Up to ₪500,000</option><option>₪500,000 to ₪1 million</option><option>₪1 to 2 million</option><option>₪2 to 5 million</option><option>Over ₪5 million</option><option value="other">Another amount</option></select><input id="f-bud-own" name="budget_own" type="text" inputmode="numeric" placeholder="Type an amount, e.g. ₪750,000" aria-label="Equity amount" style="margin-top:10px" hidden></div>
           <div class="field full"><label for="f-msg">Anything else?</label><textarea id="f-msg" name="message" placeholder="Areas, timing, questions"></textarea></div>
         </div>
         <button class="btn btn-primary" type="submit">Request my consultation <span class="arrow" aria-hidden="true">&rarr;</span></button>
@@ -1313,8 +1311,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 (() => {
 'use strict';
 /* ---------- client details (fill before launch) ---------- */
-const CONTACT_EMAIL = '';
-const CONTACT_PHONE = '';
+const CONTACT_EMAIL = 'capitalgroupmomentum@gmail.com';
+const CONTACT_PHONE = '+972 54-770-9499';
 
 const ROOT = '../', PAGE = 'israel';
 const RTL = document.documentElement.dir === 'rtl';
@@ -2642,12 +2640,14 @@ form.addEventListener('submit', e => {
   const txt = id => { const s = $(id); return s.options[s.selectedIndex].text; };
   const body = [
     T.name + ': ' + name, T.email + ': ' + email, T.phone + ': ' + (d.get('phone') || ''),
-    T.interest + ': ' + txt('#f-int'), T.budget + ': ' + txt('#f-bud'), '', (d.get('message') || '')
+    T.interest + ': ' + txt('#f-int'), T.budget + ': ' + ($('#f-bud').value === 'other' && $('#f-bud-own').value.trim() ? $('#f-bud-own').value.trim() : txt('#f-bud')), '', (d.get('message') || '')
   ].join('\n');
   location.href = 'mailto:' + (CONTACT_EMAIL || '') + '?subject=' + encodeURIComponent(T.subject + name) + '&body=' + encodeURIComponent(body);
   form.classList.add('sent');
 });
 $$('#f-name,#f-email').forEach(i => i.addEventListener('input', () => i.setCustomValidity('')));
+/* equity: "another amount" opens a box to type the visitor's own figure */
+$('#f-bud').addEventListener('change', e => { const own = $('#f-bud-own'); own.hidden = e.target.value !== 'other'; if (!own.hidden) own.focus(); });
 
 /* ---------- reduced motion, honored live in both directions ---------- */
 function pinToFinalStates() {

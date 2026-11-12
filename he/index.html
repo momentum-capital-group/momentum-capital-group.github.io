@@ -2,8 +2,6 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<!-- PREVIEW: keeps the demo out of search engines; remove this line when the real site goes live -->
-<meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Momentum Capital Group | נדל״ן בקפריסין ובישראל</title>
 <meta name="description" content="וילות ובתים לתושבות בקפריסין. פרויקטים חדשים מקבלן ונדל״ן מסחרי בישראל. הכול נבדק, נסגר במחיר הנכון ומלווה עד הרישום על שמכם.">
@@ -1231,7 +1229,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
             <optgroup label="קפריסין"><option value="cy-invest">נכס להשקעה</option><option value="cy-residency">נכס לתושבות</option><option value="cy-relocation">נכס לרילוקיישן</option></optgroup>
             <optgroup label="כללי"><option value="both">ישראל וקפריסין</option><option value="unsure" selected>עוד לא החלטתי</option></optgroup>
           </select></div>
-          <div class="field"><label for="f-bud">הון עצמי להשקעה</label><select id="f-bud" name="budget"><option>עד 500 אלף ₪</option><option>500 אלף עד 1 מיליון ₪</option><option>1 עד 2 מיליון ₪</option><option>2 עד 5 מיליון ₪</option><option>מעל 5 מיליון ₪</option></select></div>
+          <div class="field"><label for="f-bud">הון עצמי להשקעה</label><select id="f-bud" name="budget"><option>עד 500 אלף ₪</option><option>500 אלף עד 1 מיליון ₪</option><option>1 עד 2 מיליון ₪</option><option>2 עד 5 מיליון ₪</option><option>מעל 5 מיליון ₪</option><option value="other">סכום אחר</option></select><input id="f-bud-own" name="budget_own" type="text" inputmode="numeric" placeholder="הקלידו סכום, למשל 750 אלף ₪" aria-label="סכום הון עצמי" style="margin-top:10px" hidden></div>
           <div class="field full"><label for="f-msg">משהו נוסף?</label><textarea id="f-msg" name="message" placeholder="אזורים, לוחות זמנים, שאלות"></textarea></div>
         </div>
         <button class="btn btn-primary" type="submit">שליחת בקשה לפגישה <span class="arrow" aria-hidden="true">&larr;</span></button>
@@ -1269,8 +1267,8 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 (() => {
 'use strict';
 /* ---------- client details (fill before launch) ---------- */
-const CONTACT_EMAIL = '';
-const CONTACT_PHONE = '';
+const CONTACT_EMAIL = 'capitalgroupmomentum@gmail.com';
+const CONTACT_PHONE = '054-770-9499';
 
 const ROOT = '../', PAGE = 'home';
 const RTL = document.documentElement.dir === 'rtl';
@@ -2598,12 +2596,14 @@ form.addEventListener('submit', e => {
   const txt = id => { const s = $(id); return s.options[s.selectedIndex].text; };
   const body = [
     T.name + ': ' + name, T.email + ': ' + email, T.phone + ': ' + (d.get('phone') || ''),
-    T.interest + ': ' + txt('#f-int'), T.budget + ': ' + txt('#f-bud'), '', (d.get('message') || '')
+    T.interest + ': ' + txt('#f-int'), T.budget + ': ' + ($('#f-bud').value === 'other' && $('#f-bud-own').value.trim() ? $('#f-bud-own').value.trim() : txt('#f-bud')), '', (d.get('message') || '')
   ].join('\n');
   location.href = 'mailto:' + (CONTACT_EMAIL || '') + '?subject=' + encodeURIComponent(T.subject + name) + '&body=' + encodeURIComponent(body);
   form.classList.add('sent');
 });
 $$('#f-name,#f-email').forEach(i => i.addEventListener('input', () => i.setCustomValidity('')));
+/* equity: "another amount" opens a box to type the visitor's own figure */
+$('#f-bud').addEventListener('change', e => { const own = $('#f-bud-own'); own.hidden = e.target.value !== 'other'; if (!own.hidden) own.focus(); });
 
 /* ---------- reduced motion, honored live in both directions ---------- */
 function pinToFinalStates() {
